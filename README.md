@@ -492,7 +492,7 @@
         </div>
         <div class="stimulus">
           <div class="stimulus-preview">
-            <img src="images/page-B.jpg" alt="B안 상세페이지" onerror="this.style.display='none'; this.parentElement.innerHTML='B · Evidence';">
+            <img src="images/page-B.jpg.png" alt="B안 상세페이지" onerror="this.style.display='none'; this.parentElement.innerHTML='B · Evidence';">
           </div>
           <div class="label">B안 / B方案</div>
           <div class="desc">DATA · 数据</div>
