@@ -585,7 +585,7 @@
         </div>
         <div class="rank-row">
           <div class="rank-text">
-            <span class="ko">유명 Key Opinion Leader 후기</span>
+            <span class="ko">유명 KOL (Key Opinion Leader) 후기</span>
             <span class="zh">知名 KOL 测评</span>
           </div>
           <select name="q5_kol"><option value="">—</option><option value="1">1 / 第1</option><option value="2">2 / 第2</option><option value="3">3 / 第3</option><option value="0">없음 / 无</option></select>
