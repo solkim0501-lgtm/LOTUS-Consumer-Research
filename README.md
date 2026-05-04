@@ -1,1 +1,742 @@
-# LOTUS-Consumer-Research
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Pure Lotus — Consumer Research · 消费者调研</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --bg-cream: #F5EFE6;
+    --bg-warm: #EDE5D6;
+    --bg-card: #FAF6EE;
+    --ink: #2A2620;
+    --ink-soft: #5C5247;
+    --ink-mute: #8B7E6E;
+    --line: #D4C9B5;
+    --accent: #8B6F47;
+    --accent-deep: #5C4A30;
+  }
+  
+  html { scroll-behavior: smooth; }
+  
+  body {
+    background: var(--bg-cream);
+    color: var(--ink);
+    font-family: 'Noto Serif KR', 'Noto Serif SC', 'Cormorant Garamond', serif;
+    font-weight: 400;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  body.lang-zh {
+    font-family: 'Noto Serif SC', 'Noto Serif KR', 'Cormorant Garamond', serif;
+  }
+  
+  .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  
+  /* ==== LANGUAGE TOGGLE ==== */
+  .lang-toggle {
+    position: fixed; top: 24px; right: 24px; z-index: 100;
+    display: flex; background: var(--bg-card);
+    border: 1px solid var(--line); border-radius: 24px; padding: 4px;
+    box-shadow: 0 2px 8px rgba(42, 38, 32, 0.06);
+  }
+  .lang-toggle button {
+    background: transparent; border: none; padding: 8px 14px;
+    font-family: 'Inter', sans-serif; font-size: 11px;
+    letter-spacing: 0.1em; color: var(--ink-mute);
+    cursor: pointer; border-radius: 20px; transition: all 0.25s ease;
+  }
+  .lang-toggle button.active { background: var(--ink); color: var(--bg-cream); }
+  
+  /* ==== HERO ==== */
+  .hero { padding: 100px 0 80px; text-align: center; border-bottom: 1px solid var(--line); }
+  .hero .eyebrow {
+    font-family: 'Inter', sans-serif; font-size: 11px;
+    letter-spacing: 0.3em; color: var(--ink-mute);
+    text-transform: uppercase; margin-bottom: 32px;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 56px); font-weight: 400;
+    line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.01em;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent-deep); }
+  .hero .ko-title {
+    font-family: 'Noto Serif KR', serif; font-size: 18px;
+    font-weight: 400; color: var(--ink-soft);
+    margin-bottom: 6px; letter-spacing: 0.05em;
+  }
+  .hero .zh-title {
+    font-family: 'Noto Serif SC', serif; font-size: 16px;
+    font-weight: 400; color: var(--ink-mute);
+    margin-bottom: 48px; letter-spacing: 0.05em;
+  }
+  .hero .meta {
+    display: inline-flex; gap: 32px; padding: 16px 32px;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    font-family: 'Inter', sans-serif; font-size: 12px;
+    color: var(--ink-mute); letter-spacing: 0.1em;
+  }
+  .hero .meta span { text-transform: uppercase; }
+  .hero .meta .dot { color: var(--line); }
+  
+  /* ==== INTRO ==== */
+  .intro { padding: 80px 0; text-align: center; }
+  .intro p { font-size: 17px; line-height: 2; color: var(--ink-soft); margin-bottom: 16px; }
+  .intro p.zh {
+    font-family: 'Noto Serif SC', serif; font-size: 15px;
+    color: var(--ink-mute); margin-bottom: 16px;
+  }
+  .intro .signature {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 16px; color: var(--ink-mute); margin-top: 40px;
+  }
+  
+  /* 모바일에서는 강제 줄바꿈 무시하고 자연스럽게 흐르게 */
+  @media (max-width: 600px) {
+    .intro p br { display: none; }
+    .intro p { font-size: 15px; line-height: 1.85; }
+    .intro p.zh { font-size: 14px; }
+    .intro { padding: 60px 0; }
+    .container { padding: 0 20px; }
+  }
+  
+  /* ==== LANG VISIBILITY ==== */
+  body.lang-ko .zh-only { display: none !important; }
+  body.lang-zh .ko-only { display: none !important; }
+  body.lang-ko .option-text .zh,
+  body.lang-ko .rank-text .zh { display: none; }
+  body.lang-zh .option-text .ko,
+  body.lang-zh .rank-text .ko { display: none; }
+  
+  /* ==== SECTIONS ==== */
+  section.question { padding: 60px 0; border-top: 1px solid var(--line); }
+  
+  .q-number {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 14px; color: var(--accent);
+    letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .q-title {
+    font-family: 'Noto Serif KR', serif; font-size: 22px;
+    font-weight: 500; line-height: 1.5;
+    margin-bottom: 6px; color: var(--ink);
+  }
+  .q-title-zh {
+    font-family: 'Noto Serif SC', serif; font-size: 19px;
+    font-weight: 400; line-height: 1.6;
+    margin-bottom: 12px; color: var(--ink-soft);
+  }
+  body.lang-zh .q-title-zh { font-size: 22px; font-weight: 500; color: var(--ink); }
+  body.lang-zh .q-title { font-size: 16px; color: var(--ink-mute); font-weight: 400; }
+  
+  .q-subtitle {
+    font-family: 'Inter', sans-serif; font-size: 13px;
+    color: var(--ink-mute); margin-bottom: 32px; letter-spacing: 0.02em;
+  }
+  
+  /* ==== OPTIONS ==== */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  
+  .option {
+    position: relative; cursor: pointer;
+    padding: 18px 24px; background: var(--bg-card);
+    border: 1px solid var(--line); border-radius: 2px;
+    transition: all 0.3s ease; font-size: 16px; color: var(--ink);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .option:hover {
+    border-color: var(--accent); background: #FFFFFF; transform: translateX(4px);
+  }
+  .option input { position: absolute; opacity: 0; cursor: pointer; }
+  
+  .option .marker {
+    flex-shrink: 0; width: 18px; height: 18px;
+    border: 1px solid var(--line); border-radius: 50%;
+    transition: all 0.2s ease; position: relative;
+  }
+  .option input[type="checkbox"] ~ .marker { border-radius: 2px; }
+  
+  .option input:checked ~ .marker {
+    border-color: var(--accent-deep); background: var(--accent-deep);
+  }
+  .option input:checked ~ .marker::after {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); width: 6px; height: 6px;
+    background: var(--bg-cream); border-radius: 50%;
+  }
+  .option input[type="checkbox"]:checked ~ .marker::after {
+    width: 4px; height: 8px;
+    border: solid var(--bg-cream); border-width: 0 2px 2px 0;
+    transform: translate(-50%, -65%) rotate(45deg);
+    background: transparent; border-radius: 0;
+  }
+  .option:has(input:checked) {
+    border-color: var(--accent-deep); background: #FFFFFF;
+  }
+  
+  .option-text { display: flex; flex-direction: column; gap: 2px; }
+  .option-text .ko { font-size: 15px; }
+  .option-text .zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px; color: var(--ink-mute);
+  }
+  body.lang-zh .option-text .zh { font-size: 15px; color: var(--ink); }
+  
+  /* ==== STIMULUS (A/B) ==== */
+  .stimulus-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; margin: 32px auto;
+    max-width: 600px;
+  }
+  @media (max-width: 600px) { .stimulus-grid { grid-template-columns: 1fr; } }
+  
+  .stimulus {
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: center;
+  }
+  .stimulus .label {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 18px; color: var(--accent-deep); 
+    margin-top: 12px; margin-bottom: 4px;
+  }
+  .stimulus .desc {
+    font-family: 'Inter', sans-serif; font-size: 11px;
+    color: var(--ink-mute); letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  
+  .ab-instruction {
+    text-align: center; font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 15px;
+    color: var(--ink-mute); margin-bottom: 8px;
+  }
+  .ab-instruction-zh {
+    text-align: center; font-family: 'Noto Serif SC', serif;
+    font-size: 13px; color: var(--ink-mute); margin-bottom: 32px;
+  }
+  
+  .sub-q { margin-top: 32px; }
+  .sub-q-label {
+    font-family: 'Noto Serif KR', serif; font-size: 17px;
+    font-weight: 500; margin-bottom: 4px;
+  }
+  .sub-q-label-zh {
+    font-family: 'Noto Serif SC', serif; font-size: 14px;
+    font-weight: 400; color: var(--ink-mute); margin-bottom: 16px;
+  }
+  body.lang-zh .sub-q-label { font-size: 13px; color: var(--ink-mute); font-weight: 400; }
+  body.lang-zh .sub-q-label-zh { font-size: 17px; font-weight: 500; color: var(--ink); }
+  
+  /* ==== RANKING (Q5) ==== */
+  .ranking-instruction {
+    background: var(--bg-warm); padding: 16px 20px;
+    border-left: 2px solid var(--accent); font-size: 13px;
+    color: var(--ink-soft); margin-bottom: 24px; line-height: 1.7;
+  }
+  .ranking-instruction .ko { font-family: 'Inter', 'Noto Serif KR', sans-serif; display: block; }
+  .ranking-instruction .zh {
+    font-family: 'Noto Serif SC', serif; display: block;
+    margin-top: 4px; color: var(--ink-mute);
+  }
+  
+  .rank-options { display: flex; flex-direction: column; gap: 12px; }
+  
+  .rank-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 20px; background: var(--bg-card); border: 1px solid var(--line);
+  }
+  .rank-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .rank-text .ko { font-size: 15px; }
+  .rank-text .zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 12px; color: var(--ink-mute);
+  }
+  body.lang-zh .rank-text .zh { font-size: 15px; color: var(--ink); }
+  
+  .rank-row select {
+    padding: 8px 10px; border: 1px solid var(--line);
+    background: #FFFFFF; font-family: 'Inter', sans-serif;
+    font-size: 12px; color: var(--ink); cursor: pointer;
+    border-radius: 2px; min-width: 110px;
+  }
+  
+  /* ==== SUBMIT ==== */
+  .submit-section { padding: 80px 0 120px; text-align: center; border-top: 1px solid var(--line); }
+  .submit-btn {
+    padding: 20px 56px; background: var(--ink); color: var(--bg-cream);
+    border: none; font-family: 'Inter', sans-serif;
+    font-size: 12px; letter-spacing: 0.25em;
+    text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
+  }
+  .submit-btn:hover:not(:disabled) {
+    background: var(--accent-deep); transform: translateY(-2px);
+  }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .submit-note {
+    margin-top: 24px; font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 14px; color: var(--ink-mute);
+  }
+  .submit-note-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px; color: var(--ink-mute); margin-top: 4px;
+  }
+  
+  /* ==== STATUS ==== */
+  .status {
+    display: none; padding: 24px; margin-top: 32px;
+    text-align: center; font-family: 'Noto Serif KR', 'Noto Serif SC', serif; font-size: 15px;
+  }
+  .status.success { display: block; background: #FAF6EE; border: 1px solid var(--accent); color: var(--accent-deep); }
+  .status.error { display: block; background: #FAEDED; border: 1px solid #B85B5B; color: #8B3A3A; }
+  
+  .thank-you { display: none; text-align: center; padding: 120px 0; }
+  .thank-you.show { display: block; }
+  .thank-you h2 {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 48px; font-weight: 400; margin-bottom: 24px; color: var(--accent-deep);
+  }
+  .thank-you p { font-size: 17px; color: var(--ink-soft); line-height: 2; margin-bottom: 16px; }
+  .thank-you p.zh { font-family: 'Noto Serif SC', serif; font-size: 15px; color: var(--ink-mute); }
+  
+  /* ==== FOOTER ==== */
+  footer {
+    padding: 40px 0; text-align: center; border-top: 1px solid var(--line);
+    font-family: 'Inter', sans-serif; font-size: 11px;
+    color: var(--ink-mute); letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  footer .divider { display: inline-block; margin: 0 12px; color: var(--line); }
+  
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero, .intro, section.question { animation: fadeUp 0.8s ease-out; }
+  
+  .stimulus-preview {
+    width: 100%;
+    aspect-ratio: 9/19;
+    background: linear-gradient(135deg, #E8DEC9, #D4C9B5);
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--accent-deep);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(42, 38, 32, 0.08);
+    max-height: 600px;
+  }
+  
+  .stimulus-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+</style>
+</head>
+<body class="lang-both">
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-toggle">
+  <button data-lang="both" class="active" onclick="setLang('both')">韓·中</button>
+  <button data-lang="ko" onclick="setLang('ko')">한국어</button>
+  <button data-lang="zh" onclick="setLang('zh')">中文</button>
+</div>
+
+<form id="surveyForm">
+  <main id="surveyContent">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">Consumer Research · 2026</p>
+      <h1>The Pure <em>Lotus</em></h1>
+      <p class="ko-title ko-only">스킨케어 구매 의사결정 설문조사</p>
+      <p class="zh-title zh-only">护肤品购买决策问卷调查</p>
+      <div class="meta">
+        <span>5 Min</span>
+        <span class="dot">·</span>
+        <span>Anonymous · 匿名</span>
+        <span class="dot">·</span>
+        <span>Academic · 学术</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="container">
+      <p class="ko-only">
+        안녕하세요.<br>
+        저희는 경희대학교 GTEP ON:DO 팀입니다.
+      </p>
+      <p class="ko-only">
+        본 설문은 더퓨어로터스의 중국 시장 진출 전략 수립을 위한 학술 연구이며,<br>
+        스킨케어 구매 시 소비자가 중요하게 여기는 요소를 파악하고자 합니다.
+      </p>
+      <p class="zh-only zh">
+        您好。<br>
+        我们是庆熙大学 GTEP ON:DO 团队。
+      </p>
+      <p class="zh-only zh">
+        本问卷为The Pure Lotus(纯净莲花)<br>
+        进军中国市场战略制定的学术研究,<br>
+        旨在了解消费者购买护肤品时所重视的因素。
+      </p>
+      <p class="signature">— Thank you for your time · 感谢您的配合</p>
+    </div>
+  </section>
+
+  <!-- Q0 — 거주국 -->
+  <section class="question">
+    <div class="container">
+      <p class="q-number">Question Zero</p>
+      <h2 class="q-title ko-only">현재 거주하시는 국가는 어디인가요?</h2>
+      <h2 class="q-title-zh zh-only">您目前居住在哪个国家?</h2>
+      <p class="q-subtitle">Single choice · 单选</p>
+      <div class="options">
+        <label class="option">
+          <input type="radio" name="q0" value="대한민국" required>
+          <span class="marker"></span>
+          <span class="option-text">
+            <span class="ko">🇰🇷 대한민국</span>
+            <span class="zh">🇰🇷 韩国</span>
+          </span>
+        </label>
+        <label class="option">
+          <input type="radio" name="q0" value="중국">
+          <span class="marker"></span>
+          <span class="option-text">
+            <span class="ko">🇨🇳 중국 (본토)</span>
+            <span class="zh">🇨🇳 中国 (大陆)</span>
+          </span>
+        </label>
+        <label class="option">
+          <input type="radio" name="q0" value="기타">
+          <span class="marker"></span>
+          <span class="option-text">
+            <span class="ko">기타</span>
+            <span class="zh">其他</span>
+          </span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q1 -->
+  <section class="question">
+    <div class="container">
+      <p class="q-number">Question One</p>
+      <h2 class="q-title ko-only">귀하의 연령대는 어떻게 되시나요?</h2>
+      <h2 class="q-title-zh zh-only">请问您的年龄段是?</h2>
+      <p class="q-subtitle">Single choice · 单选</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="20세 미만" required><span class="marker"></span><span class="option-text"><span class="ko">20세 미만</span><span class="zh">20岁以下</span></span></label>
+        <label class="option"><input type="radio" name="q1" value="20–29세"><span class="marker"></span><span class="option-text"><span class="ko">20–29세</span><span class="zh">20–29岁</span></span></label>
+        <label class="option"><input type="radio" name="q1" value="30–39세"><span class="marker"></span><span class="option-text"><span class="ko">30–39세</span><span class="zh">30–39岁</span></span></label>
+        <label class="option"><input type="radio" name="q1" value="40–49세"><span class="marker"></span><span class="option-text"><span class="ko">40–49세</span><span class="zh">40–49岁</span></span></label>
+        <label class="option"><input type="radio" name="q1" value="50세 이상"><span class="marker"></span><span class="option-text"><span class="ko">50세 이상</span><span class="zh">50岁以上</span></span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q2 -->
+  <section class="question">
+    <div class="container">
+      <p class="q-number">Question Two</p>
+      <h2 class="q-title ko-only">스킨케어 제품 구매 시, 가장 먼저 확인하는 정보는 무엇입니까?</h2>
+      <h2 class="q-title-zh zh-only">购买护肤品时,您最先确认的信息是什么?</h2>
+      <p class="q-subtitle">Multiple · Up to 3 · 多选 最多3项</p>
+      <div class="options">
+        <label class="option"><input type="checkbox" name="q2" value="성분표"><span class="marker"></span><span class="option-text"><span class="ko">성분표</span><span class="zh">成分表</span></span></label>
+        <label class="option"><input type="checkbox" name="q2" value="임상시험 수치"><span class="marker"></span><span class="option-text"><span class="ko">임상시험 수치 (효능 입증 데이터, 그래프)</span><span class="zh">临床试验数据 (功效验证、图表)</span></span></label>
+        <label class="option"><input type="checkbox" name="q2" value="브랜드 스토리"><span class="marker"></span><span class="option-text"><span class="ko">브랜드 스토리 / 이미지</span><span class="zh">品牌故事 / 形象</span></span></label>
+        <label class="option"><input type="checkbox" name="q2" value="KOL 후기"><span class="marker"></span><span class="option-text"><span class="ko">인플루언서·KOL 후기</span><span class="zh">网红·KOL 测评</span></span></label>
+        <label class="option"><input type="checkbox" name="q2" value="가격"><span class="marker"></span><span class="option-text"><span class="ko">가격</span><span class="zh">价格</span></span></label>
+        <label class="option"><input type="checkbox" name="q2" value="패키지 디자인"><span class="marker"></span><span class="option-text"><span class="ko">패키지 디자인</span><span class="zh">包装设计</span></span></label>
+        <label class="option"><input type="checkbox" name="q2" value="전문가 인증"><span class="marker"></span><span class="option-text"><span class="ko">전문가(피부과 의사 등) 인증</span><span class="zh">专家(皮肤科医生等)认证</span></span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q3 - A/B -->
+  <section class="question">
+    <div class="container">
+      <p class="q-number">Question Three</p>
+      <h2 class="q-title ko-only">두 가지 상세페이지를 비교해주세요</h2>
+      <h2 class="q-title-zh zh-only">请比较以下两个产品详情页</h2>
+      <p class="q-subtitle">두 페이지를 비교 · 比较两个页面</p>
+      
+      <div class="stimulus-grid">
+        <div class="stimulus">
+          <div class="stimulus-preview">
+            <img src="images/page-A.jpg" alt="A안 상세페이지" onerror="this.style.display='none'; this.parentElement.innerHTML='A · Sensory';">
+          </div>
+          <div class="label">A안 / A方案</div>
+          <div class="desc">SENSORY · 感性</div>
+        </div>
+        <div class="stimulus">
+          <div class="stimulus-preview">
+            <img src="images/page-B.jpg" alt="B안 상세페이지" onerror="this.style.display='none'; this.parentElement.innerHTML='B · Evidence';">
+          </div>
+          <div class="label">B안 / B方案</div>
+          <div class="desc">DATA · 数据</div>
+        </div>
+      </div>
+      
+      <p class="ab-instruction ko-only">— 두 페이지를 모두 살펴보신 후 답해주세요 —</p>
+      <p class="ab-instruction-zh zh-only">— 浏览完两个页面后请作答 —</p>
+      
+      <div class="sub-q">
+        <p class="sub-q-label ko-only">3-1. 어느 페이지가 더 신뢰가 가나요?</p>
+        <p class="sub-q-label-zh zh-only">3-1. 哪个页面更让您信任?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q3_1" value="A안" required><span class="marker"></span><span class="option-text"><span class="ko">A안 (감성형)</span><span class="zh">A方案 (感性型)</span></span></label>
+          <label class="option"><input type="radio" name="q3_1" value="B안"><span class="marker"></span><span class="option-text"><span class="ko">B안 (데이터형)</span><span class="zh">B方案 (数据型)</span></span></label>
+          <label class="option"><input type="radio" name="q3_1" value="비슷함"><span class="marker"></span><span class="option-text"><span class="ko">비슷함</span><span class="zh">差不多</span></span></label>
+        </div>
+      </div>
+      
+      <div class="sub-q">
+        <p class="sub-q-label ko-only">3-2. 어느 페이지가 구매하고 싶게 만드나요?</p>
+        <p class="sub-q-label-zh zh-only">3-2. 哪个页面更让您想购买?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="q3_2" value="A안" required><span class="marker"></span><span class="option-text"><span class="ko">A안 (감성형)</span><span class="zh">A方案 (感性型)</span></span></label>
+          <label class="option"><input type="radio" name="q3_2" value="B안"><span class="marker"></span><span class="option-text"><span class="ko">B안 (데이터형)</span><span class="zh">B方案 (数据型)</span></span></label>
+          <label class="option"><input type="radio" name="q3_2" value="비슷함"><span class="marker"></span><span class="option-text"><span class="ko">비슷함</span><span class="zh">差不多</span></span></label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q4 -->
+  <section class="question">
+    <div class="container">
+      <p class="q-number">Question Four</p>
+      <h2 class="q-title ko-only">B안 제품이 A안 대비 얼마까지 비싸도 구매할 의향이 있나요?</h2>
+      <h2 class="q-title-zh zh-only">B方案的产品比A方案贵多少,您仍愿意购买?</h2>
+      <p class="q-subtitle">Willingness to Pay · 支付意愿 (WTP)</p>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="동일 가격" required><span class="marker"></span><span class="option-text"><span class="ko">동일 가격이어야 한다</span><span class="zh">必须价格相同</span></span></label>
+        <label class="option"><input type="radio" name="q4" value="+10%"><span class="marker"></span><span class="option-text"><span class="ko">+10%까지</span><span class="zh">最多 +10%</span></span></label>
+        <label class="option"><input type="radio" name="q4" value="+20%"><span class="marker"></span><span class="option-text"><span class="ko">+20%까지</span><span class="zh">最多 +20%</span></span></label>
+        <label class="option"><input type="radio" name="q4" value="+30%"><span class="marker"></span><span class="option-text"><span class="ko">+30%까지</span><span class="zh">最多 +30%</span></span></label>
+        <label class="option"><input type="radio" name="q4" value="+30% 이상"><span class="marker"></span><span class="option-text"><span class="ko">+30% 이상도 가능</span><span class="zh">+30% 以上也可以</span></span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q5 -->
+  <section class="question">
+    <div class="container">
+      <p class="q-number">Question Five</p>
+      <h2 class="q-title ko-only">한국 화장품 브랜드의 신뢰도를 가장 높이는 정보는?</h2>
+      <h2 class="q-title-zh zh-only">最能提升韩国化妆品品牌信任度的信息是?</h2>
+      <p class="q-subtitle">Ranking · 1·2·3 · 排序</p>
+      
+      <div class="ranking-instruction">
+        <span class="ko">각 항목에 1·2·3순위를 골라주세요. 같은 순위는 한 번만 선택할 수 있어요.</span>
+        <span class="zh">请为各项目选择第 1·2·3 位。同一名次只能选择一次。</span>
+      </div>
+      
+      <div class="rank-options">
+        <div class="rank-row">
+          <div class="rank-text">
+            <span class="ko">인체적용시험 임상 수치 (예: 주름 개선 20%)</span>
+            <span class="zh">人体临床试验数据 (例: 改善皱纹20%)</span>
+          </div>
+          <select name="q5_clinical"><option value="">—</option><option value="1">1 / 第1</option><option value="2">2 / 第2</option><option value="3">3 / 第3</option><option value="0">없음 / 无</option></select>
+        </div>
+        <div class="rank-row">
+          <div class="rank-text">
+            <span class="ko">피부과 전문의 추천</span>
+            <span class="zh">皮肤科专家推荐</span>
+          </div>
+          <select name="q5_doctor"><option value="">—</option><option value="1">1 / 第1</option><option value="2">2 / 第2</option><option value="3">3 / 第3</option><option value="0">없음 / 无</option></select>
+        </div>
+        <div class="rank-row">
+          <div class="rank-text">
+            <span class="ko">비건/유기농 인증</span>
+            <span class="zh">纯素/有机认证</span>
+          </div>
+          <select name="q5_vegan"><option value="">—</option><option value="1">1 / 第1</option><option value="2">2 / 第2</option><option value="3">3 / 第3</option><option value="0">없음 / 无</option></select>
+        </div>
+        <div class="rank-row">
+          <div class="rank-text">
+            <span class="ko">0.00 저자극 테스트 결과</span>
+            <span class="zh">0.00 低刺激测试结果</span>
+          </div>
+          <select name="q5_lowirritation"><option value="">—</option><option value="1">1 / 第1</option><option value="2">2 / 第2</option><option value="3">3 / 第3</option><option value="0">없음 / 无</option></select>
+        </div>
+        <div class="rank-row">
+          <div class="rank-text">
+            <span class="ko">유명 Key Opinion Leader 후기</span>
+            <span class="zh">知名 KOL 测评</span>
+          </div>
+          <select name="q5_kol"><option value="">—</option><option value="1">1 / 第1</option><option value="2">2 / 第2</option><option value="3">3 / 第3</option><option value="0">없음 / 无</option></select>
+        </div>
+        <div class="rank-row">
+          <div class="rank-text">
+            <span class="ko">천연 원료 원산지 (예: 제주)</span>
+            <span class="zh">天然原料产地 (例: 济州岛)</span>
+          </div>
+          <select name="q5_origin"><option value="">—</option><option value="1">1 / 第1</option><option value="2">2 / 第2</option><option value="3">3 / 第3</option><option value="0">없음 / 无</option></select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBMIT -->
+  <section class="submit-section">
+    <div class="container">
+      <button type="submit" class="submit-btn" id="submitBtn">Submit · 제출 · 提交</button>
+      <p class="submit-note ko-only">감사합니다. 응답은 더퓨어로터스 중국 진출 전략에 활용됩니다.</p>
+      <p class="submit-note-zh zh-only">感谢您的配合。您的回答将用于纯净莲花进军中国市场的战略研究。</p>
+      <div id="status" class="status"></div>
+    </div>
+  </section>
+
+  </main>
+</form>
+
+<!-- THANK YOU -->
+<div id="thankYou" class="thank-you">
+  <div class="container">
+    <h2>Thank you · 谢谢</h2>
+    <p class="ko-only">
+      소중한 응답을 보내주셔서 감사합니다.<br>
+      여러분의 의견이 더퓨어로터스의 글로벌 여정에<br>
+      의미 있는 데이터가 됩니다.
+    </p>
+    <p class="zh zh-only">
+      非常感谢您宝贵的回答。<br>
+      您的意见将成为纯净莲花<br>
+      迈向全球的重要数据。
+    </p>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <span>© 2026 GTEP ON:DO</span>
+    <span class="divider">·</span>
+    <span>Kyung Hee Univ · 庆熙大学</span>
+    <span class="divider">·</span>
+    <span>The Pure Lotus</span>
+  </div>
+</footer>
+
+<script>
+  // ⚠️ Apps Script 배포 URL (이미 입력됨)
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyD_WEQ5fTowzYwirsp177eeWFy7ts1gZnA9nhJzzpSeC6ZsLDKy9779JxvakrH1DCV/exec';
+  
+  function setLang(lang) {
+    document.body.classList.remove('lang-ko', 'lang-zh', 'lang-both');
+    document.body.classList.add('lang-' + lang);
+    document.querySelectorAll('.lang-toggle button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    localStorage.setItem('lotus-survey-lang', lang);
+  }
+  
+  const savedLang = localStorage.getItem('lotus-survey-lang') || 'both';
+  setLang(savedLang);
+  
+  const form = document.getElementById('surveyForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const status = document.getElementById('status');
+  const surveyContent = document.getElementById('surveyContent');
+  const thankYou = document.getElementById('thankYou');
+  
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const q2Checked = form.querySelectorAll('input[name="q2"]:checked');
+    if (q2Checked.length === 0) {
+      showStatus('Q2: 하나 이상 선택해주세요. / 请至少选择一项。', 'error');
+      return;
+    }
+    if (q2Checked.length > 3) {
+      showStatus('Q2: 최대 3개까지만 선택 가능합니다. / 最多只能选3项。', 'error');
+      return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting · 提交中...';
+    
+    const formData = new FormData(form);
+    const q2Values = Array.from(q2Checked).map(c => c.value).join(', ');
+    const currentLang = document.body.classList.contains('lang-ko') ? 'KO' :
+                        document.body.classList.contains('lang-zh') ? 'ZH' : 'BOTH';
+    
+    const payload = {
+      timestamp: new Date().toISOString(),
+      response_lang: currentLang,
+      q0_country: formData.get('q0') || '',
+      q1: formData.get('q1') || '',
+      q2: q2Values,
+      q3_1: formData.get('q3_1') || '',
+      q3_2: formData.get('q3_2') || '',
+      q4: formData.get('q4') || '',
+      q5_clinical: formData.get('q5_clinical') || '',
+      q5_doctor: formData.get('q5_doctor') || '',
+      q5_vegan: formData.get('q5_vegan') || '',
+      q5_lowirritation: formData.get('q5_lowirritation') || '',
+      q5_kol: formData.get('q5_kol') || '',
+      q5_origin: formData.get('q5_origin') || ''
+    };
+    
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      surveyContent.style.display = 'none';
+      thankYou.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+    } catch (err) {
+      showStatus('전송 실패 / 提交失败: ' + err.message, 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit · 제출 · 提交';
+    }
+  });
+  
+  function showStatus(msg, type) {
+    status.textContent = msg;
+    status.className = 'status ' + type;
+    setTimeout(() => { status.className = 'status'; }, 5000);
+  }
+  
+  const q2Boxes = document.querySelectorAll('input[name="q2"]');
+  q2Boxes.forEach(box => {
+    box.addEventListener('change', () => {
+      const checked = document.querySelectorAll('input[name="q2"]:checked');
+      if (checked.length > 3) {
+        box.checked = false;
+        showStatus('Q2: 최대 3개까지만 / 最多3项', 'error');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
